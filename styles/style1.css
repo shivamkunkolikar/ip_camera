@@ -1,0 +1,11 @@
+#front-screen {
+    display: flex;
+}
+
+#camera-screen {
+    display: none;
+}
+
+#viewer-screen {
+    display: none;
+}

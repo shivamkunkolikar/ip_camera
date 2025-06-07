@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles/style1.css">
+</head>
+<body>
+    <div id="front-screen">
+        <button id="camera" onclick="clicked_camera_btn()">Use device as Camera</button>
+        <button id="viewer" onclick="clicked_viewer_btn()">Use device as Viewer</button>
+    </div>
+
+    <div id="camera-screen">
+        <video id="video" style="border: 1px solid black;" autoplay></video>
+        <canvas id="photo"></canvas>
+        <button id="start-video" onclick="start_video()">Start Video</button>
+        <button id="stop-video" onclick="stop_video()">Stop Video</button>
+        <button id="capture-video" onclick="capture_video()">Capture Video</button>
+
+        <p id="err-msg" style="color: red"></p>
+    </div>
+    <div id="viewer-screen">viewer</div>
+
+    <script src="logics/main.js"></script>
+</body>
+</html>
