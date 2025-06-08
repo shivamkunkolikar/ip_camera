@@ -18,10 +18,12 @@
         <button id="start-video" onclick="start_video()">Start Video</button>
         <button id="stop-video" onclick="stop_video()">Stop Video</button>
         <button id="capture-video" onclick="capture_video()">Capture Video</button>
-
         <p id="err-msg" style="color: red"></p>
     </div>
-    <div id="viewer-screen">viewer</div>
+    <div id="viewer-screen">
+        <img  id="stream" />
+        <button id="receive-video" onclick="start_recieving_video()">Start Recieving Video</button>
+    </div>
 
     <script src="logics/main.js"></script>
 </body>

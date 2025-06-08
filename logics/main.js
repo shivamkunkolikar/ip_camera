@@ -1,5 +1,8 @@
 let cam = false
 let camera_stream
+const ws = new WebSocket(window.location.hostname === 'localhost' ? 'ws://localhost:8080' : 'ws://192.168.80.36:8080')
+ws.binaryType = 'blob'
+
 function clicked_camera_btn() {
     cam = true
     document.getElementById('camera-screen').style.display = 'flex'
@@ -20,6 +23,23 @@ function start_video() {
             camera_stream = stream
             const video = document.getElementById('video')
             video.srcObject = stream
+
+            video.onloadedmetadata = () => {
+                const cnv = document.createElement('canvas')
+                const ctx = cnv.getContext('2d')
+
+                setInterval(() => {
+                    cnv.width = video.videoWidth
+                    cnv.height = video.videoHeight
+                    ctx.drawImage(video, 0, 0, cnv.width, cnv.height)
+
+                    cnv.toBlob(blob => {
+                        if(blob && ws.readyState === WebSocket.OPEN) {
+                            ws.send(blob)
+                        }
+                    }, 'image/webp', 0.5)
+                }, 33)
+            }
         })
         .catch((error) => {
             console.error("Error Accessing Camera: ", error)
@@ -34,8 +54,6 @@ function stop_video() {
             track.stop()
         })
         const video = document.getElementById('video')
-        // video.srcObject = null
-        // camera_stream = null
     }
     else {
         console.warn("No Camera Stream")
@@ -62,3 +80,16 @@ function capture_video() {
     downloadLink.style.display = 'block';
 }
 
+
+function start_recieving_video() {
+    let img = document.getElementById('stream')
+    ws.onmessage = (event) => {
+        const blob = event.data
+        const url = URL.createObjectURL(blob)
+        img.src = url
+
+        img.onload = () => {
+            URL.revokeObjectURL(url)
+        }
+    }
+}
